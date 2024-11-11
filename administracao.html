@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulário com Firebase (Apenas Exibição)</title>
+</head>
+<body>
+  <table border="1" id="corpoTabela">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Email</th>
+        <th>Telefone</th>
+        <th>Bairro</th>
+        <th> Cidade</th>
+        <th>Estado</th>
+        <th>CEP</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-analytics.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyDmYwIQY75K86yG8pK75MeDkuUhg0oJgRA",
+      authDomain: "revisao-f841b.firebaseapp.com",
+      projectId: "revisao-f841b",
+      storageBucket: "revisao-f841b.firebasestorage.app",
+      messagingSenderId: "678085761335",
+      appId: "1:678085761335:web:5f72723708010f34ff62b2",
+      measurementId: "G-DGMK3NQBMJ"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  
+
+    async function carregarContatos() {
+      const corpoTabela = document.getElementById('corpoTabela').getElementsByTagName('tbody')[0];
+
+      try {
+        const querySnapshot = await getDocs(collection(db, "contatos"));
+
+        querySnapshot.forEach((doc) => {
+          const { nome, email, mensagem, timestamp } = doc.data();
+          const dataFormatada = timestamp ? new Date(timestamp.toDate()).toLocaleString() : 'N/A';
+
+          const novaLinha = document.createElement('tr');
+          novaLinha.innerHTML = `
+            <td>${Nome}</td>
+            <td>${Email}</td>
+            <td>${Telefone}</td>
+            <td>${Bairro}</td>
+            <td>${Cidade}</td>
+            <td>${Estado}</td>
+            <td>${CEP}</td>
+          `;
+          corpoTabela.appendChild(novaLinha);
+        });
+
+      } catch (error) {
+        console.error('Erro ao carregar contatos: ', error);
+      }
+    }
+
+    // Chama a função para carregar os contatos ao carregar a página
+    window.onload = carregarContatos;
+    
+      </script>
+</body>
+</html>
